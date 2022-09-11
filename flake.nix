@@ -48,21 +48,21 @@
         packages.sf-pro = mkFontDerivation {
           name = "sf-pro-font";
           url = "https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg";
-          sha256 = "sha256-4ITyRyc8kVE+tNOSeniu5fm/xo2vebszszCvy+f/t9w=";
+          sha256 = "sha256-HtJ/KdIVOdYocuzQ8qkzTAm7bMITCq3Snv+Bo9WO9iA=";
           description = "A San Francisco Pro derivation.";
         };
 
         packages.sf-compact = mkFontDerivation {
           name = "sf-compact-font";
           url = "https://devimages-cdn.apple.com/design/resources/download/SF-Compact.dmg";
-          sha256 = "1mmc7ps3zmg8bq391xv9n5v2q7y2lrmyksnvix3h76yhw178hw4m";
+          sha256 = "sha256-7gRJxuB+DOxS6bzHXFNjNH2X4kmO1MhJN2zK5he2XRU=";
           description = "A San Francisco Compact derivation.";
         };
 
         packages.sf-mono = mkFontDerivation {
           name = "sf-mono-font";
           url = "https://developer.apple.com/design/downloads/SF-Mono.dmg";
-          sha256 = "sha256-ZXGWbBH3SqZKRu83dPyDdvgi5Y0beFv1wsiZIOdbDZQ=";
+          sha256 = "sha256-ulmhu5kXy+A7//frnD2mzBs6q5Jx8r6KwwaY7gmoYYM=";
           description = "A San Francisco Mono derivation.";
         };
 
@@ -76,7 +76,7 @@
         packages.ny = mkFontDerivation {
           name = "ny-font";
           url = "https://devimages-cdn.apple.com/design/resources/download/NY.dmg";
-          sha256 = "0ih9bnwfsya0chypwgal7afb6n2wbg3pv8v30idhf951ggmzqkky";
+          sha256 = "sha256-Rr0UpJa7kemczCqNn6b8HNtW6PiWO/Ez1LUh/WNk8S8=";
           description = "A New York derivation.";
         };
       });
