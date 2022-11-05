@@ -48,35 +48,35 @@
         packages.sf-pro = mkFontDerivation {
           name = "sf-pro-font";
           url = "https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg";
-          sha256 = "sha256-HtJ/KdIVOdYocuzQ8qkzTAm7bMITCq3Snv+Bo9WO9iA=";
+          sha256 = "sha256-g/eQoYqTzZwrXvQYnGzDFBEpKAPC8wHlUw3NlrBabHw=";
           description = "A San Francisco Pro derivation.";
         };
 
         packages.sf-compact = mkFontDerivation {
           name = "sf-compact-font";
           url = "https://devimages-cdn.apple.com/design/resources/download/SF-Compact.dmg";
-          sha256 = "sha256-7gRJxuB+DOxS6bzHXFNjNH2X4kmO1MhJN2zK5he2XRU=";
+          sha256 = "sha256-0mUcd7H7SxZN3J1I+T4SQrCsJjHL0GuDCjjZRi9KWBM=";
           description = "A San Francisco Compact derivation.";
         };
 
         packages.sf-mono = mkFontDerivation {
           name = "sf-mono-font";
           url = "https://developer.apple.com/design/downloads/SF-Mono.dmg";
-          sha256 = "sha256-ulmhu5kXy+A7//frnD2mzBs6q5Jx8r6KwwaY7gmoYYM=";
+          sha256 = "sha256-q69tYs1bF64YN6tAo1OGczo/YDz2QahM9Zsdf7TKrDk=";
           description = "A San Francisco Mono derivation.";
         };
 
         packages.sf-arabic = mkFontDerivation {
           name = "sf-arabic-font";
-          url = "https://developer.apple.com/design/downloads/SF-Arabic.dmg";
-          sha256 = "14lkkbjjnm0pvv8jf32q3zllsay8h6rjl7n62j0qql7dsvxmln59";
+          url = "https://devimages-cdn.apple.com/design/resources/download/SF-Arabic.dmg";
+          sha256 = "sha256-4tZhojq2qGG73t/DgYYVTN+ROFKWK2ubeNM53RbPS0E=";
           description = "A San Francisco Arabic derivation.";
         };
 
         packages.ny = mkFontDerivation {
           name = "ny-font";
           url = "https://devimages-cdn.apple.com/design/resources/download/NY.dmg";
-          sha256 = "sha256-Rr0UpJa7kemczCqNn6b8HNtW6PiWO/Ez1LUh/WNk8S8=";
+          sha256 = "sha256-HuAgyTh+Z1K+aIvkj5VvL6QqfmpMj6oLGGXziAM5C+A=";
           description = "A New York derivation.";
         };
       });
