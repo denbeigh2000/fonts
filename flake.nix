@@ -48,35 +48,35 @@
         packages.sf-pro = mkFontDerivation {
           name = "sf-pro-font";
           url = "https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg";
-          sha256 = "sha256-g/eQoYqTzZwrXvQYnGzDFBEpKAPC8wHlUw3NlrBabHw=";
+          sha256 = "0z3cbaq9dk8dagjh3wy20cl2j48lqdn9q67lbqmrrkckiahr1xw3";
           description = "A San Francisco Pro derivation.";
         };
 
         packages.sf-compact = mkFontDerivation {
           name = "sf-compact-font";
           url = "https://devimages-cdn.apple.com/design/resources/download/SF-Compact.dmg";
-          sha256 = "sha256-0mUcd7H7SxZN3J1I+T4SQrCsJjHL0GuDCjjZRi9KWBM=";
+          sha256 = "04sq98pldn9q1a1npl6b64karc2228zgjj4xvi6icjzvn5viqrfj";
           description = "A San Francisco Compact derivation.";
         };
 
         packages.sf-mono = mkFontDerivation {
           name = "sf-mono-font";
           url = "https://developer.apple.com/design/downloads/SF-Mono.dmg";
-          sha256 = "sha256-q69tYs1bF64YN6tAo1OGczo/YDz2QahM9Zsdf7TKrDk=";
+          sha256 = "0fdcras7y7cvym6ahhgn7ih3yfkkhr9s6h5b6wcaw5svrmi6vbxb";
           description = "A San Francisco Mono derivation.";
         };
 
         packages.sf-arabic = mkFontDerivation {
           name = "sf-arabic-font";
           url = "https://devimages-cdn.apple.com/design/resources/download/SF-Arabic.dmg";
-          sha256 = "sha256-4tZhojq2qGG73t/DgYYVTN+ROFKWK2ubeNM53RbPS0E=";
+          sha256 = "0habrwbdsffkg2dnnawna8w93psc2n383hyzvsxn3a5n7ai63mp2";
           description = "A San Francisco Arabic derivation.";
         };
 
         packages.ny = mkFontDerivation {
           name = "ny-font";
           url = "https://devimages-cdn.apple.com/design/resources/download/NY.dmg";
-          sha256 = "sha256-HuAgyTh+Z1K+aIvkj5VvL6QqfmpMj6oLGGXziAM5C+A=";
+          sha256 = "1q0b741qiwv5305sm3scd9z2m91gdyaqzr4bd2z54rvy734j1q0y";
           description = "A New York derivation.";
         };
       });
