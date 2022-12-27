@@ -1,30 +1,68 @@
 #!/usr/bin/env python3
 
 import json
+import os
 import shutil
 import subprocess
 import sys
 from functools import cache
 from pathlib import Path
+from typing import Dict, Optional, Sequence
 
 import requests
 
+GIT_BIN = shutil.which("git")
+SSH_BIN = shutil.which("ssh")
 
-def get_git() -> str:
-    return shutil.which("git")
+
+@cache
+def get_env() -> Dict[str, str]:
+    ssh_key = os.environ.get("FONT_SSH_KEY")
+    if not ssh_key:
+        return dict()
+
+    assert Path(ssh_key).is_absolute()
+
+    env = os.environ.copy()
+    env.update({"GIT_SSH_COMMAND": f"{SSH_BIN} -i {ssh_key}"})
+
+    return env
 
 
-GIT_BIN = get_git()
+def prep_given_dir() -> Optional[Path]:
+    given_dir_str = os.environ.get("FONT_CHECKOUT_DIR")
+    if not given_dir_str:
+        return None
+
+    given_dir = Path(given_dir_str)
+    if (given_dir / ".git").exists():
+        return given_dir
+
+    # Clone our directory if it doesn't exist
+    subprocess.run(
+        [GIT_BIN, "clone", "git@github.com:denbeigh2000/fonts.git", given_dir],
+        check=True,
+        env=get_env(),
+    )
+    return given_dir
 
 
 def get_repo_dir() -> Path:
+    given_dir = prep_given_dir()
+    if given_dir:
+        return given_dir
+
     # NOTE: We explicitly _avoid_ using __file__ here, because that doesn't
     # reflect our git repo when this is being run from the Nix store.
-    raw = subprocess.run(
-        [GIT_BIN, "rev-parse", "--show-toplevel"],
-        capture_output=True,
-        check=True,
-    ).stdout.decode("utf-8").strip()
+    raw = (
+        subprocess.run(
+            [GIT_BIN, "rev-parse", "--show-toplevel"],
+            capture_output=True,
+            check=True,
+        )
+        .stdout.decode("utf-8")
+        .strip()
+    )
 
     return Path(raw)
 
@@ -33,7 +71,8 @@ REPO_DIR = get_repo_dir()
 
 SHA_FILE = REPO_DIR / "shas.json"
 
-GIT_CMD = [GIT_BIN, "-C", str(REPO_DIR), "--no-pager" ]
+GIT_CMD = [GIT_BIN, "-C", str(REPO_DIR), "--no-pager"]
+
 
 def pre_check():
     try:
@@ -62,15 +101,19 @@ def last_update() -> str:
         str(SHA_FILE.absolute()),
     ]
 
-    return subprocess.run(
-        git_args,
-        cwd=REPO_DIR,
-        capture_output=True,
-        check=True,
-        env={
-            "TZ": "GMT",
-        },
-    ).stdout.decode("utf-8").strip()
+    return (
+        subprocess.run(
+            git_args,
+            cwd=REPO_DIR,
+            capture_output=True,
+            check=True,
+            env={
+                "TZ": "GMT",
+            },
+        )
+        .stdout.decode("utf-8")
+        .strip()
+    )
 
 
 def update_required(url: str) -> bool:
@@ -100,15 +143,21 @@ def push_updates() -> None:
         GIT_CMD + ["commit", "--message=updated checksums", str(SHA_FILE)], check=True
     )
 
-    subprocess.run(GIT_CMD + ["push", "origin", "master"])
+    subprocess.run(GIT_CMD + ["push", "origin", "master"], env=get_env(), check=True)
 
 
 def prefetch_url(url: str) -> str:
-    return subprocess.run(
-        ["nix", "store", "prefetch-file", url],
-        capture_output=True,
-        check=True,
-    ).stdout.decode("utf-8").strip()
+    data = (
+        subprocess.run(
+            ["nix", "store", "prefetch-file", url],
+            capture_output=True,
+            check=True,
+        )
+        .stdout.decode("utf-8")
+        .strip()
+    )
+
+    return json.loads(data)['hash']
 
 
 def main():
