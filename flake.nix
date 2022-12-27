@@ -2,15 +2,36 @@
   description =
     "A flake providing certain un-nixpkg'd fonts.";
 
-  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-  inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+    mach-nix = {
+      url = "github:DavHau/mach-nix/3.5.0";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+        pypi-deps-db.follows = "pypi-deps-db";
+      };
+    };
+    pypi-deps-db = {
+      url = "github:DavHau/pypi-deps-db/master";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
+  };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, mach-nix, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         inherit (builtins) fromJSON readFile;
         pkgs = import nixpkgs { inherit system; };
         shas = fromJSON readFile ./shas.json;
+
+        update = pkgs.callPackage ./update/default.nix {
+          mach-nix = mach-nix.lib.${system};
+        };
 
         mkFontDerivation = (
           { name, description }:
@@ -41,6 +62,11 @@
         );
       in
       {
+        apps = {
+          inherit update;
+          default = update;
+        };
+
         packages = {
           default = pkgs.symlinkJoin {
             name = "denbeigh-fonts";

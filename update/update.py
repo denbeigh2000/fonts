@@ -6,9 +6,18 @@ from pathlib import Path
 
 import requests
 
-CWD = Path(__file__).parent.parent.parent
 
-SHA_FILE = CWD / "shas.json"
+def get_repo_dir() -> Path:
+    return subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        capture_output=True,
+        check=True,
+    ).stdout.decode("utf-8")
+
+
+REPO_DIR = get_repo_dir()
+
+SHA_FILE = REPO_DIR / "shas.json"
 
 
 @cache
@@ -31,7 +40,7 @@ def last_update() -> str:
 
     return subprocess.run(
         git_args,
-        cwd=CWD,
+        cwd=REPO_DIR,
         capture_output=True,
         check=True,
         env={
@@ -96,7 +105,7 @@ def main():
         print("No modifications made", file=sys.stderr)
         return
 
-    with open(SHA_FILE, 'w') as f:
+    with open(SHA_FILE, "w") as f:
         json.dump(sha_data, f, indent=2)
 
     names_updated = ", ".join(updated)
