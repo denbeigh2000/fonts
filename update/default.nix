@@ -7,8 +7,8 @@ let
     requests
     types-requests
   ]);
-
-  script = stdenv.mkDerivation {
+in
+  stdenv.mkDerivation {
     pname = "update-fonts";
     version = "0.0.0";
 
@@ -22,9 +22,4 @@ let
       cp $src/update.py $out/bin/update
       chmod +x $out/bin/update
     '';
-  };
-in
-  {
-    type = "app";
-    program = "${script}/bin/update";
   }

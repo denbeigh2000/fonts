@@ -1,4 +1,5 @@
-{ fetchurl
+{ callPackage
+, fetchurl
 , p7zip
 , stdenvNoCC
 , symlinkJoin
@@ -68,4 +69,6 @@ rec {
     name = "ny";
     description = "A New York derivation.";
   };
+
+  update-tool = callPackage ./update {};
 }
