@@ -1,0 +1,22 @@
+{
+  "sf-pro": {
+    "sha256": "0z3cbaq9dk8dagjh3wy20cl2j48lqdn9q67lbqmrrkckiahr1xw3",
+    "url": "https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg"
+  },
+  "sf-compact": {
+    "sha256": "04sq98pldn9q1a1npl6b64karc2228zgjj4xvi6icjzvn5viqrfj",
+    "url": "https://devimages-cdn.apple.com/design/resources/download/SF-Compact.dmg"
+  },
+  "sf-mono": {
+    "sha256": "0fdcras7y7cvym6ahhgn7ih3yfkkhr9s6h5b6wcaw5svrmi6vbxb",
+    "url": "https://developer.apple.com/design/downloads/SF-Mono.dmg"
+  },
+  "sf-arabic": {
+    "sha256": "0habrwbdsffkg2dnnawna8w93psc2n383hyzvsxn3a5n7ai63mp2",
+    "url": "https://devimages-cdn.apple.com/design/resources/download/SF-Arabic.dmg"
+  },
+  "ny": {
+    "sha256": "1q0b741qiwv5305sm3scd9z2m91gdyaqzr4bd2z54rvy734j1q0y",
+    "url": "https://devimages-cdn.apple.com/design/resources/download/NY.dmg"
+  }
+}

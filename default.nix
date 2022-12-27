@@ -5,13 +5,14 @@
 }:
 
 let
-  inherit (stdenvNoCC.platform) system;
+  inherit (builtins) fromJSON readFile;
+  shas = fromJSON (readFile ./shas.json);
 
   mkFontDerivation = (
-    { name, url, sha256, description }:
+    { name, description }:
     stdenvNoCC.mkDerivation {
-      inherit name;
-      src = fetchurl { inherit url sha256; };
+      name = "${name}-font";
+      src = fetchurl { inherit (shas.${name}) url sha256; };
       unpackPhase = ''
         runHook preUnpack
 
@@ -44,37 +45,27 @@ rec {
   };
 
   sf-pro = mkFontDerivation {
-    name = "sf-pro-font";
-    url = "https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg";
-    sha256 = "0z3cbaq9dk8dagjh3wy20cl2j48lqdn9q67lbqmrrkckiahr1xw3";
+    name = "sf-pro";
     description = "A San Francisco Pro derivation.";
   };
 
   sf-compact = mkFontDerivation {
-    name = "sf-compact-font";
-    url = "https://devimages-cdn.apple.com/design/resources/download/SF-Compact.dmg";
-    sha256 = "04sq98pldn9q1a1npl6b64karc2228zgjj4xvi6icjzvn5viqrfj";
+    name = "sf-compact";
     description = "A San Francisco Compact derivation.";
   };
 
   sf-mono = mkFontDerivation {
-    name = "sf-mono-font";
-    url = "https://developer.apple.com/design/downloads/SF-Mono.dmg";
-    sha256 = "0fdcras7y7cvym6ahhgn7ih3yfkkhr9s6h5b6wcaw5svrmi6vbxb";
+    name = "sf-mono";
     description = "A San Francisco Mono derivation.";
   };
 
   sf-arabic = mkFontDerivation {
-    name = "sf-arabic-font";
-    url = "https://devimages-cdn.apple.com/design/resources/download/SF-Arabic.dmg";
-    sha256 = "0habrwbdsffkg2dnnawna8w93psc2n383hyzvsxn3a5n7ai63mp2";
+    name = "sf-arabic";
     description = "A San Francisco Arabic derivation.";
   };
 
   ny = mkFontDerivation {
-    name = "ny-font";
-    url = "https://devimages-cdn.apple.com/design/resources/download/NY.dmg";
-    sha256 = "1q0b741qiwv5305sm3scd9z2m91gdyaqzr4bd2z54rvy734j1q0y";
+    name = "ny";
     description = "A New York derivation.";
   };
 }
