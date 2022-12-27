@@ -11,15 +11,20 @@
     let
       overlay = import ./overlay.nix;
     in
-    { overlays.default = overlay; } // flake-utils.lib.eachDefaultSystem (system:
+    {
+      overlays.default = overlay;
+      nixosModules.update-tool = (import ./update/module.nix);
+    } // flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
           overlays = [ overlay ];
         };
 
-        update = pkgs.callPackage ./update/default.nix {};
-
+        update = {
+          type = "app";
+          program = "${pkgs.denbeigh.fonts.update-tool}/bin/update";
+        };
       in
       {
         apps = {
@@ -28,7 +33,7 @@
         };
 
         packages = {
-          inherit (pkgs.denbeigh.fonts) default sf-pro sf-compact sf-mono sf-arabic ny;
+          inherit (pkgs.denbeigh.fonts) default sf-pro sf-compact sf-mono sf-arabic ny update-tool;
         };
       });
 }
