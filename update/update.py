@@ -17,14 +17,15 @@ SSH_BIN = shutil.which("ssh")
 
 @cache
 def get_env() -> Dict[str, str]:
+    # Don't validate our key, and don't try to update ones we know about.
+    cmd = f"{SSH_BIN} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
     ssh_key = os.environ.get("FONT_SSH_KEY")
-    if not ssh_key:
-        return dict()
-
-    assert Path(ssh_key).is_absolute()
+    if ssh_key:
+        assert Path(ssh_key).is_absolute()
+        cmd += f" -i {ssh_key}"
 
     env = os.environ.copy()
-    env.update({"GIT_SSH_COMMAND": f"{SSH_BIN} -i {ssh_key}"})
+    env.update({"GIT_SSH_COMMAND": cmd})
 
     return env
 

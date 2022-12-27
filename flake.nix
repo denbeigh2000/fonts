@@ -11,7 +11,10 @@
     let
       overlay = import ./overlay.nix;
     in
-    { overlays.default = overlay; } // flake-utils.lib.eachDefaultSystem (system:
+    {
+      overlays.default = overlay;
+      nixosModules.update-tool = (import ./update/module.nix);
+    } // flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
