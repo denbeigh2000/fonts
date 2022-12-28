@@ -11,8 +11,15 @@ from typing import Dict, Optional, Sequence
 
 import requests
 
-GIT_BIN = shutil.which("git")
-SSH_BIN = shutil.which("ssh")
+
+def which(cmd: str) -> str:
+    cmd_bin = shutil.which(cmd)
+    assert cmd_bin is not None, f"no {cmd} command"
+    return cmd_bin
+
+
+GIT_BIN = which("git")
+SSH_BIN = which("ssh")
 
 
 @cache
@@ -141,7 +148,15 @@ def update_required(url: str) -> bool:
 
 def push_updates() -> None:
     subprocess.run(
-        GIT_CMD + ["commit", "--message=updated checksums", str(SHA_FILE)], check=True
+        GIT_CMD
+        + [
+            "--config-env=user.name=Denbeigh Bot",
+            "--config-env=user.email=bot@denbeigh.cloud",
+            "commit",
+            "--message=updated checksums",
+            str(SHA_FILE),
+        ],
+        check=True,
     )
 
     subprocess.run(GIT_CMD + ["push", "origin", "master"], env=get_env(), check=True)
@@ -158,7 +173,7 @@ def prefetch_url(url: str) -> str:
         .strip()
     )
 
-    return json.loads(data)['hash']
+    return json.loads(data)["hash"]
 
 
 def main():
