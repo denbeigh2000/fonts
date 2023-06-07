@@ -84,9 +84,9 @@ GIT_CMD = [GIT_BIN, "-C", str(REPO_DIR), "--no-pager"]
 
 def pre_check():
     try:
-        subprocess.call(GIT_CMD + ["checkout", "master"], check=True)
-        subprocess.call(GIT_CMD + ["fetch", "origin", "master"], check=True)
-        subprocess.call(GIT_CMD + ["reset", "origin/master"], check=True)
+        subprocess.run(GIT_CMD + ["checkout", "master"], check=True)
+        subprocess.run(GIT_CMD + ["fetch", "origin", "master"], check=True)
+        subprocess.run(GIT_CMD + ["reset", "origin/master"], check=True)
 
     except subprocess.CalledProcessError:
         print("Error initialising repository state", file=sys.stderr)
@@ -150,8 +150,10 @@ def push_updates() -> None:
     subprocess.run(
         GIT_CMD
         + [
-            "--config-env=user.name=Denbeigh Bot",
-            "--config-env=user.email=bot@denbeigh.cloud",
+            "-c",
+            "user.name=Denbeigh Bot",
+            "-c",
+            "user.email=bot@denbeigh.cloud",
             "commit",
             "--message=updated checksums",
             str(SHA_FILE),
@@ -165,7 +167,7 @@ def push_updates() -> None:
 def prefetch_url(url: str) -> str:
     data = (
         subprocess.run(
-            ["nix", "store", "prefetch-file", url],
+            ["nix", "store", "prefetch-file", "--json", url],
             capture_output=True,
             check=True,
         )
@@ -177,6 +179,8 @@ def prefetch_url(url: str) -> str:
 
 
 def main():
+    pre_check()
+
     with open(SHA_FILE) as f:
         sha_data = json.load(f)
 
@@ -199,6 +203,8 @@ def main():
 
     names_updated = ", ".join(updated)
     print(f"Updated {names_updated}", file=sys.stderr)
+
+    push_updates()
 
 
 if __name__ == "__main__":
