@@ -7,7 +7,7 @@ import subprocess
 import sys
 from functools import cache
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 import requests
 
@@ -20,6 +20,7 @@ def which(cmd: str) -> str:
 
 GIT_BIN = which("git")
 SSH_BIN = which("ssh")
+NIX_BIN = which("nix")
 
 
 @cache
@@ -169,7 +170,7 @@ def push_updates() -> None:
 def prefetch_url(url: str) -> str:
     data = (
         subprocess.run(
-            ["nix", "store", "prefetch-file", "--json", url],
+            [NIX_BIN, "store", "prefetch-file", "--json", url],
             capture_output=True,
             check=True,
         )

@@ -1,4 +1,4 @@
-{ lib, stdenv, git, makeWrapper, openssh, python310 }:
+{ lib, stdenv, nix, git, makeWrapper, openssh, python310 }:
 
 let
   inherit (builtins) readFile path;
@@ -26,6 +26,6 @@ stdenv.mkDerivation {
   '';
 
   postFixup = ''
-    wrapProgram $out/bin/update --prefix PATH : ${lib.makeBinPath [ git openssh ]}
+    wrapProgram $out/bin/update --prefix PATH : ${lib.makeBinPath [ git openssh nix ]}
   '';
 }
