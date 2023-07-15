@@ -88,7 +88,7 @@ def pre_check():
         subprocess.run(
             GIT_CMD + ["fetch", "origin", "master"], check=True, env=get_env()
         )
-        subprocess.run(GIT_CMD + ["reset", "origin/master"], check=True)
+        subprocess.run(GIT_CMD + ["reset", "--hard", "origin/master"], check=True)
 
     except subprocess.CalledProcessError:
         print("Error initialising repository state", file=sys.stderr)
