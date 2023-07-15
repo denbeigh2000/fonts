@@ -7,7 +7,7 @@ import subprocess
 import sys
 from functools import cache
 from pathlib import Path
-from typing import Dict, Optional, Sequence
+from typing import Dict, List, Optional
 
 import requests
 
@@ -85,7 +85,9 @@ GIT_CMD = [GIT_BIN, "-C", str(REPO_DIR), "--no-pager"]
 def pre_check():
     try:
         subprocess.run(GIT_CMD + ["checkout", "master"], check=True)
-        subprocess.run(GIT_CMD + ["fetch", "origin", "master"], check=True)
+        subprocess.run(
+            GIT_CMD + ["fetch", "origin", "master"], check=True, env=get_env()
+        )
         subprocess.run(GIT_CMD + ["reset", "origin/master"], check=True)
 
     except subprocess.CalledProcessError:
