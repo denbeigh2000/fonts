@@ -14,7 +14,7 @@ import requests
 
 logging.basicConfig()
 LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(os.environ.get("LOG_LEVEL", "warn"))
+LOGGER.setLevel(os.environ.get("LOG_LEVEL", "WARN").upper())
 
 
 def which(cmd: str) -> str:
