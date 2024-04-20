@@ -42,7 +42,7 @@ in
         group = cfg.user;
       };
 
-      groups.${cfg.user} = {};
+      groups.${cfg.user} = { };
     };
 
     systemd.services.denbeigh-font-updater = {
@@ -60,6 +60,9 @@ in
         Group = cfg.user;
         StateDirectory = "./denbeigh-font-updater";
         StateDirectoryMode = "750";
+        Environment = [
+          "LOG_LEVEL=info"
+        ];
       };
     };
 

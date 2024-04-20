@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import logging
 import os
 import shutil
 import subprocess
@@ -10,6 +11,10 @@ from pathlib import Path
 from typing import Dict, Optional
 
 import requests
+
+logging.basicConfig()
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(os.environ.get("LOG_LEVEL", "warn"))
 
 
 def which(cmd: str) -> str:
@@ -84,6 +89,7 @@ GIT_CMD = [GIT_BIN, "-C", str(REPO_DIR), "--no-pager"]
 
 
 def pre_check():
+    LOGGER.info("resetting repository state")
     try:
         subprocess.run(GIT_CMD + ["checkout", "master"], check=True)
         subprocess.run(
@@ -92,7 +98,7 @@ def pre_check():
         subprocess.run(GIT_CMD + ["reset", "--hard", "origin/master"], check=True)
 
     except subprocess.CalledProcessError:
-        print("Error initialising repository state", file=sys.stderr)
+        LOGGER.exception("Error initialising repository state", file=sys.stderr)
         raise
 
 
@@ -192,20 +198,25 @@ def main():
     for font, data in sha_data.items():
         url = data["url"]
         if not update_required(url):
+            LOGGER.info(f"{font:<8} no update available")
             continue
 
-        sha_data[font]["sha256"] = prefetch_url(url)
+        LOGGER.info(f"{font:<8} update available")
+        new_hash = prefetch_url(url)
+        LOGGER.info(f"{font:<8} new hash: {new_hash}")
+        sha_data[font]["sha256"] = new_hash
         updated.append(font)
 
     if not updated:
-        print("No modifications made", file=sys.stderr)
+        LOGGER.info("No modifications made")
         return
 
+    LOGGER.info(f"writing to {SHA_FILE}")
     with open(SHA_FILE, "w") as f:
         json.dump(sha_data, f, indent=2)
 
     names_updated = ", ".join(updated)
-    print(f"Updated {names_updated}", file=sys.stderr)
+    LOGGER.info(f"Updated {names_updated}")
 
     push_updates()
 
