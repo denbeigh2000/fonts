@@ -203,9 +203,9 @@ def main():
             LOGGER.info(f"{font:<8} no update available")
             continue
 
-        LOGGER.info(f"{font:<8} update available")
+        LOGGER.info(f"[{font:<10}] update available")
         new_hash = prefetch_url(url)
-        LOGGER.info(f"{font:<8} new hash: {new_hash}")
+        LOGGER.info(f"[{font:<10}] new hash: {new_hash}")
         sha_data[font]["sha256"] = new_hash
         updated.append(font)
 
