@@ -134,11 +134,13 @@ def last_update() -> str:
 
 
 def update_required(url: str) -> bool:
+    updated_at = last_update()
+    LOGGER.info(f"last update: {updated_at}")
     resp = requests.head(
         url,
         allow_redirects=True,
         headers={
-            "If-Modified-Since": last_update(),
+            "If-Modified-Since": updated_at,
         },
     )
 
