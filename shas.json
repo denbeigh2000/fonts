@@ -1,22 +1,22 @@
 {
   "sf-pro": {
-    "sha256": "sha256-B8xljBAqOoRFXvSOkOKDDWeYUebtMmQLJ8lF05iFnXk=",
+    "sha256": "sha256-IccB0uWWfPCidHYX6sAusuEZX906dVYo8IaqeX7/O88=",
     "url": "https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg"
   },
   "sf-compact": {
-    "sha256": "sha256-L4oLQ34Epw1/wLehU9sXQwUe/LaeKjHRxQAF6u2pfTo=",
+    "sha256": "sha256-PlraM6SwH8sTxnVBo6Lqt9B6tAZDC//VCPwr/PNcnlk=",
     "url": "https://devimages-cdn.apple.com/design/resources/download/SF-Compact.dmg"
   },
   "sf-mono": {
-    "sha256": "sha256-Uarx1TKO7g5yVBXAx6Yki065rz/wRuYiHPzzi6cTTl8=",
+    "sha256": "sha256-bUoLeOOqzQb5E/ZCzq0cfbSvNO1IhW1xcaLgtV2aeUU=",
     "url": "https://developer.apple.com/design/downloads/SF-Mono.dmg"
   },
   "sf-arabic": {
-    "sha256": "sha256-1clBp+aePSLNR9JrS+jReH7pEJtsH+zpzsiBKLQvvUs=",
+    "sha256": "sha256-J2DGLVArdwEsSVF8LqOS7C1MZH/gYJhckn30jRBRl7k=",
     "url": "https://devimages-cdn.apple.com/design/resources/download/SF-Arabic.dmg"
   },
   "ny": {
-    "sha256": "sha256-yYyqkox2x9nQ842laXCqA3UwOpUGyIfUuprX975OsLA=",
+    "sha256": "sha256-HC7ttFJswPMm+Lfql49aQzdWR2osjFYHJTdgjtuI+PQ=",
     "url": "https://devimages-cdn.apple.com/design/resources/download/NY.dmg"
   }
 }
