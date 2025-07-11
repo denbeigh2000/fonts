@@ -1,10 +1,10 @@
 {
   "sf-pro": {
-    "sha256": "sha256-yPrCO2f3MqdYJr40g3ZaES8SbX1LFu4HTMlwytpkxtc=",
+    "sha256": "sha256-090HwtgILtK/KGoOzcwz1iAtoiShKAVjiNhUDQtO+gQ=",
     "url": "https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg"
   },
   "sf-compact": {
-    "sha256": "sha256-Ttr1aHXvETZKlKDaGPrkViRUO+l5eHT4A+DtSAmXMgw=",
+    "sha256": "sha256-z70mts7oFaMTt4q7p6M7PzSw4auOEaiaJPItYqUpN0A=",
     "url": "https://devimages-cdn.apple.com/design/resources/download/SF-Compact.dmg"
   },
   "sf-mono": {
