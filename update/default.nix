@@ -1,9 +1,9 @@
-{ lib, stdenv, nix, git, makeWrapper, openssh, python310 }:
+{ lib, stdenv, nix, git, makeWrapper, openssh, python313 }:
 
 let
   inherit (builtins) readFile path;
 
-  python = python310.withPackages (p: with p; [
+  python = python313.withPackages (p: with p; [
     requests
     types-requests
   ]);
