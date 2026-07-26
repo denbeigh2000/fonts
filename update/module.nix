@@ -1,8 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.denbeigh.services.updaters.fonts;
-  inherit (lib) mkEnableOption mkIf mkOption types;
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
 in
 
 {
@@ -31,47 +41,57 @@ in
         Calendar expression to execute checks on (default every 6 hours)
       '';
     };
+
+    package = mkOption {
+      type = types.package;
+      default = pkgs.callPackage ./. { };
+      defaultText = lib.literalExpression "pkgs.callPackage ./. { }";
+      description = ''
+        The update-tool package to use. Defaults to the version bundled with
+        this module.
+      '';
+    };
   };
 
-  config = (mkIf cfg.enable {
-    nixpkgs.overlays = [ (import ../overlay.nix) ];
+  config = (
+    mkIf cfg.enable {
+      users = {
+        users.${cfg.user} = {
+          isSystemUser = true;
+          group = cfg.user;
+        };
 
-    users = {
-      users.${cfg.user} = {
-        isSystemUser = true;
-        group = cfg.user;
+        groups.${cfg.user} = { };
       };
 
-      groups.${cfg.user} = { };
-    };
+      systemd.services.denbeigh-font-updater = {
+        description = "Check for updates in public font repo.";
 
-    systemd.services.denbeigh-font-updater = {
-      description = "Check for updates in public font repo.";
+        script = ''
+          set -euo pipefail
 
-      script = ''
-        set -euo pipefail
+          FONT_SSH_KEY="${cfg.sshKeyPath}" FONT_CHECKOUT_DIR="$STATE_DIRECTORY" ${cfg.package}/bin/update
+        '';
 
-        FONT_SSH_KEY="${cfg.sshKeyPath}" FONT_CHECKOUT_DIR="$STATE_DIRECTORY" ${pkgs.denbeigh.fonts.update-tool}/bin/update
-      '';
-
-      serviceConfig = {
-        Type = "oneshot";
-        User = cfg.user;
-        Group = cfg.user;
-        StateDirectory = "./denbeigh-font-updater";
-        StateDirectoryMode = "750";
-        Environment = [
-          "LOG_LEVEL=info"
-        ];
+        serviceConfig = {
+          Type = "oneshot";
+          User = cfg.user;
+          Group = cfg.user;
+          StateDirectory = "./denbeigh-font-updater";
+          StateDirectoryMode = "750";
+          Environment = [
+            "LOG_LEVEL=info"
+          ];
+        };
       };
-    };
 
-    systemd.timers.denbeigh-font-updater = {
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = cfg.calendar;
-        Persistent = true;
+      systemd.timers.denbeigh-font-updater = {
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = cfg.calendar;
+          Persistent = true;
+        };
       };
-    };
-  });
+    }
+  );
 }
