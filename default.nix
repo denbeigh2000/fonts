@@ -18,8 +18,19 @@ let
         runHook preUnpack
 
         ${p7zip}/bin/7z x -y $src
-        ${p7zip}/bin/7z x -y "**/*.pkg"
-        ${p7zip}/bin/7z x -y "Payload~"
+
+        # Older Apple dmgs contain a real .pkg: extract it, then its Payload~
+        # (a gzip'd cpio). Newer ones (e.g. the refreshed SF-Pro.dmg) are
+        # recursed in full by 7z's dmg handler (dmg -> APFS -> xar -> payload)
+        # in the single step above, leaving Payload~ as a bare cpio archive
+        # and no .pkg on disk.
+        pkg=$(find . -name '*.pkg' | head -n1)
+        if [ -n "$pkg" ]; then
+          ${p7zip}/bin/7z x -y "$pkg"
+          ${p7zip}/bin/7z x -y "Payload~"
+        else
+          ${p7zip}/bin/7z x -y -tCpio Payload~
+        fi
 
         rm -rfv !Library
 
